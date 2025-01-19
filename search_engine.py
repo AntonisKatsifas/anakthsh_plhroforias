@@ -108,3 +108,10 @@ def search_interface():
                 print(f"- {result['title']}")
         else:
             print("No results found.")
+
+
+def main():
+    search_interface()
+
+if __name__ == "__main__":
+    main()
