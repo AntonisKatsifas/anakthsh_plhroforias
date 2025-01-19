@@ -38,3 +38,11 @@ def fetch_and_save_articles(queries, filename="wikipedia_articles.json"):
         print(f"Saved {len(articles)} articles to {filename}.")
     else:
         print("No articles found.")
+
+
+def main():
+    queries = "Deep learning,Document classification,Information retrieval,Natural language processing,Learning to rank,Information retrieval,Recommender system,Large language model,Prompt engineering,Machine learning,Recurrent neural network,Ranking Algorithms,Climate Change,History of Art,Health and Nutrition,The History of the Olympic Games,Cave exploration".split(",")
+    fetch_and_save_articles(queries)
+
+if __name__ == "__main__":
+    main()
