@@ -35,3 +35,10 @@ def process_articles(input_file, output_file):
         print(f"Processed articles saved in '{output_file}'.")
     else:
         print("No articles to process.")
+
+
+def main():
+    process_articles("wikipedia_articles.json", "processed_wikipedia_articles.json")
+
+if __name__ == "__main__":
+    main()
