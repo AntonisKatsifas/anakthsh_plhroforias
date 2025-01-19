@@ -29,3 +29,13 @@ def save_inverted_index(inverted_index, filename="inverted_index.json"):
         print(f"Inverted index saved in '{filename}'.")
     except Exception as e:
         print(f"Error saving file: {e}")
+
+
+def main():
+    input_filename = "processed_wikipedia_articles.json"
+    output_filename = "inverted_index.json"
+    articles = load_processed_articles(input_filename)
+    save_inverted_index(create_inverted_index(articles), output_filename)
+
+if __name__ == "__main__":
+    main()
