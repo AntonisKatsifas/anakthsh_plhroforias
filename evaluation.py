@@ -58,18 +58,18 @@ def boolean_search(query_tokens, inverted_index):
 #  TF-IDF search
 def tfidf_search(query_tokens, articles):
 
-    # Συγκέντρωση όλων των κειμένων των άρθρων
+    # Get all document content
     documents = [article['content'] for article in articles]
     
-    # Δημιουργία του vectorizer TF-IDF
+    # Create vectorizer TF-IDF
     vectorizer = TfidfVectorizer(stop_words='english')
     X = vectorizer.fit_transform(documents)
     
-    # Δημιουργία query vector από το ερώτημα
+    # Create query vector
     query = ' '.join(query_tokens)
     query_vector = vectorizer.transform([query])
 
-    # Υπολογισμός ομοιότητας συνημιτόνου (cosine similarity)(παρθηκε απο το ιντερνετ αυτη η γραμμη)
+    # cosine similarity
     cosine_similarities = np.array(X.dot(query_vector.T).toarray()).flatten()
     
     return cosine_similarities
@@ -105,7 +105,7 @@ def evaluate_search_algorithm(query, relevant_docs, inverted_index, articles, al
         return None
 
     # Υπολογισμός ακρίβειας, ανάκλησης και F1-score
-    # Αν δεν υπάρχουν ανακτημένα έγγραφα ή σχετικά έγγραφα, μηδενίζουμε τις τιμές
+    # if there are not related articles 0 the variables
     y_true = [1 if doc_id in relevant_docs else 0 for doc_id in retrieved_docs]
     y_pred = [1 if doc_id in relevant_docs else 0 for doc_id in retrieved_docs]
 
@@ -116,7 +116,7 @@ def evaluate_search_algorithm(query, relevant_docs, inverted_index, articles, al
         recall = recall_score(y_true, y_pred, zero_division=0)
         f1 = f1_score(y_true, y_pred, zero_division=0)
 
-    # Υπολογισμός μέσης ακρίβειας (MAP)
+    # Calculate (MAP)
     if len(retrieved_docs) == 0:
         ap = 0.0
     else:
@@ -124,7 +124,7 @@ def evaluate_search_algorithm(query, relevant_docs, inverted_index, articles, al
 
     return precision, recall, f1, ap
 
-# Δημιουργία ενός σετ δοκιμών (test set) για την αξιολόγηση
+# Create test queries, uncomment one of them only to test cases
 def generate_test_queries():
     # test_queries = [
     #     {"query": "machine learning", "relevant_docs": [0, 9, 7]},
@@ -136,18 +136,18 @@ def generate_test_queries():
     #     {"query": "prompt engineering", "relevant_docs": [8, 7]},
     #     {"query": "learning to rank", "relevant_docs": [4, 2]},
     # ]
-    # test_queries = [
-    #     {"query": "What is machine learning?", "relevant_docs": [0, 9]},
-    #     {"query": "Techniques for recommending items", "relevant_docs": [6, 8]},
-    #     {"query": "How to process natural language?", "relevant_docs": [3, 7]},
-    #     {"query": "Algorithms for ranking results", "relevant_docs": [4, 5]},
-    #     {"query": "What are large language models used for?", "relevant_docs": [7, 8]},
-    #     {"query": "Deep learning in AI systems", "relevant_docs": [0, 1]},
-    #     {"query": "How to design search algorithms?", "relevant_docs": [11, 4]},
-    #     {"query": "Applications of recurrent neural networks", "relevant_docs": [9, 10]},
-    #     {"query": "Methods for improving information retrieval", "relevant_docs": [5, 3]},
-    #     {"query": "How to engineer effective prompts?", "relevant_docs": [8, 7]}
-    # ]
+    test_queries = [
+        {"query": "What is machine learning?", "relevant_docs": [0, 9]},
+        {"query": "Techniques for recommending items", "relevant_docs": [6, 8]},
+        {"query": "How to process natural language?", "relevant_docs": [3, 7]},
+        {"query": "Algorithms for ranking results", "relevant_docs": [4, 5]},
+        {"query": "What are large language models used for?", "relevant_docs": [7, 8]},
+        {"query": "Deep learning in AI systems", "relevant_docs": [0, 1]},
+        {"query": "How to design search algorithms?", "relevant_docs": [11, 4]},
+        {"query": "Applications of recurrent neural networks", "relevant_docs": [9, 10]},
+        {"query": "Methods for improving information retrieval", "relevant_docs": [5, 3]},
+        {"query": "How to engineer effective prompts?", "relevant_docs": [8, 7]}
+    ]
     # test_queries = [
     #     {"query": "applications of deep learning in natural language processing", "relevant_docs": [0, 3, 9]},
     #     {"query": "methods for document classification and information retrieval", "relevant_docs": [1, 2, 4]},
@@ -227,3 +227,10 @@ def evaluate_system():
         print(f"Average Recall: {recall_total / num_queries:.4f}")
         print(f"Average F1-Score: {f1_total / num_queries:.4f}")
         print(f"Average MAP: {ap_total / num_queries:.4f}")
+
+
+def main():
+    evaluate_system()
+
+if __name__ == "__main__":
+    main()
